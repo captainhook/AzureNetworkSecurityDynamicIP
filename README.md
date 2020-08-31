@@ -8,9 +8,7 @@ An Azure Function App, Azure Logic App, and Azure Automation Runbook to utilise 
    - Click Browse gallery from the top of the page.
    - Search 'AzureRM.Network AzureRM.Profile'
    - Select each module and import it into your Azure Automation account.
-   
 2. Existing Network Security Group rule
-  
 3. Public DNS records
 
 ### Info:
