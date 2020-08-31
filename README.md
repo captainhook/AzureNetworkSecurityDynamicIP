@@ -14,21 +14,21 @@ An Azure Function App, Azure Logic App, and Azure Automation Runbook to utilise 
 3. Public DNS records
 
 ### Info:
-1. [IPLookup.ps1](https://github.com/captainhook/AzureNetworkSecurityDynamicIP/blob/master/IPLookup.ps1) - template code for an Azure Function App which will query *public DNS* records for your FQDN
-2. [UpdateNetworkSecurityGroupRule.ps1](https://github.com/captainhook/AzureNetworkSecurityDynamicIP/blob/master/UpdateNetworkSecurityGroupRule.ps1) - template code for Azure Automation Account runbook which will utilise the public DNS data to *update existing Network Security Group rule*.
-3. [RunbookIntervalLogicApp](https://github.com/captainhook/AzureNetworkSecurityDynamicIP/blob/master/RunbookIntervalLogicApp) - Azure Automation Account schedules are limited to running at most 1 hour intervals. To work around this, we use an Azure Logic App to schedule runbook jobs at intervals of our choosing. I recommend no less than 5 minute intervals since runbook jobs take on average 1 minute to complete.
+1. [IPLookup.ps1](IPLookup.ps1) - template code for an Azure Function App which will query *public DNS* records for your FQDN
+2. [UpdateNetworkSecurityGroupRule.ps1](UpdateNetworkSecurityGroupRule.ps1) - template code for Azure Automation Account runbook which will utilise the public DNS data to *update existing Network Security Group rule*.
+3. [RunbookIntervalLogicApp](RunbookIntervalLogicApp) - Azure Automation Account schedules are limited to running at most 1 hour intervals. To work around this, we use an Azure Logic App to schedule runbook jobs at intervals of our choosing. I recommend no less than 5 minute intervals since runbook jobs take on average 1 minute to complete.
 
 ### Setup:
 2. Create a Resource Group to contain your automation
 3. Create an Azure Function App within the Resource Group
-4. Add a new Function with your Function App, adapt the code in [IPLookup.ps1](https://github.com/captainhook/AzureNetworkSecurityDynamicIP/blob/master/IPLookup.ps1) template
+4. Add a new Function with your Function App, adapt the code in [IPLookup.ps1](IPLookup.ps1) template
 5. Generate a Function Url for your function
 6. Create an Azure Automation Account within the Resource Group
-7. Create a Runbook within the Automation Account, adapt the code in [UpdateNetworkSecurityGroupRule.ps1](https://github.com/captainhook/AzureNetworkSecurityDynamicIP/blob/master/UpdateNetworkSecurityGroupRule.ps1) template
+7. Create a Runbook within the Automation Account, adapt the code in [UpdateNetworkSecurityGroupRule.ps1](UpdateNetworkSecurityGroupRule.ps1) template
    - Add your Network Security Group name in line 26
    - Add your Resource Group name in line 28
    - Add your Network Security Rule name in line 30
    - Add your Function Url in line 32, *appending '&name=Lon' to the end*
    - Add your Priority in line 35
 8. Create an Azure Logic App within the Resource Group
-9. Import (and modify for your environment) the Logic App template using [RunbookIntervalLogicApp](https://github.com/captainhook/AzureNetworkSecurityDynamicIP/blob/master/RunbookIntervalLogicApp)
+9. Import (and modify for your environment) the Logic App template using [RunbookIntervalLogicApp](RunbookIntervalLogicApp)
