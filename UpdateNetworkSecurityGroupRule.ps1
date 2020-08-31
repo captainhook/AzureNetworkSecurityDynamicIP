@@ -32,7 +32,7 @@ $NetSecRul = ""
 # get and store the IP using our Azure Function App's URL
 $Dyn_IP = Invoke-WebRequest -URI "https://….azurewebsites.net/api/…&name=Office1" -UseBasicParsing -Method Get
 # set Priority
-$Priority = "350"
+$Priority = ""
 
 # Get the network security group
 $nsg = Get-AzureRmNetworkSecurityGroup -Name $NetSecGrp -ResourceGroupName $ResGrp
