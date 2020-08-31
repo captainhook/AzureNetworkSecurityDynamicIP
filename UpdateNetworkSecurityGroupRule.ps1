@@ -31,10 +31,12 @@ $ResGrp = ""
 $NetSecRul = ""
 # get and store the IP using our Azure Function App's URL
 $Dyn_IP = Invoke-WebRequest -URI "https://….azurewebsites.net/api/…&name=Office1" -UseBasicParsing -Method Get
+# set Priority
+$Priority = "350"
 
 # Get the network security group
 $nsg = Get-AzureRmNetworkSecurityGroup -Name $NetSecGrp -ResourceGroupName $ResGrp
 # Use the pipeline operator to pass the security group in $nsg to Get-AzureRmNetworkSecurityRuleConfig (the security rule configuration)
 $nsg | Get-AzureRmNetworkSecurityRuleConfig -Name $NetSecRul
 # Update the network security rule
-Set-AzureRmNetworkSecurityRuleConfig -Name $NetSecRul -NetworkSecurityGroup $nsg -Access "Allow" -DestinationAddressPrefix * -DestinationPortRange 22 -Direction Inbound -Priority 350 -Protocol * -SourceAddressPrefix $Dyn_IP -SourcePortRange *  | Set-AzureRmNetworkSecurityGroup
+Set-AzureRmNetworkSecurityRuleConfig -Name $NetSecRul -NetworkSecurityGroup $nsg -Access "Allow" -DestinationAddressPrefix * -DestinationPortRange 22 -Direction Inbound -Priority $Priority -Protocol * -SourceAddressPrefix $Dyn_IP -SourcePortRange *  | Set-AzureRmNetworkSecurityGroup
