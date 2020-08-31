@@ -1,0 +1,100 @@
+{
+    "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "actions": {
+            "Condition": {
+                "actions": {},
+                "else": {
+                    "actions": {
+                        "Send_an_email_(V2)": {
+                            "inputs": {
+                                "body": {
+                                    "Body": "<p>@{body('Create_job')}</p>",
+                                    "Subject": "Runbook Failed",
+                                    "To": "support@domain.com"
+                                },
+                                "host": {
+                                    "connection": {
+                                        "name": "@parameters('$connections')['office365']['connectionId']"
+                                    }
+                                },
+                                "method": "post",
+                                "path": "/v2/Mail"
+                            },
+                            "runAfter": {},
+                            "type": "ApiConnection"
+                        }
+                    }
+                },
+                "expression": {
+                    "and": [
+                        {
+                            "equals": [
+                                "@body('Create_job')?['properties']?['status']",
+                                "Completed"
+                            ]
+                        }
+                    ]
+                },
+                "runAfter": {
+                    "Create_job": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "If"
+            },
+            "Create_job": {
+                "inputs": {
+                    "host": {
+                        "connection": {
+                            "name": "@parameters('$connections')['azureautomation']['connectionId']"
+                        }
+                    },
+                    "method": "put",
+                    "path": "/subscriptions/@{encodeURIComponent('XXXXX')}/resourceGroups/@{encodeURIComponent('Azure_PSrunner')}/providers/Microsoft.Automation/automationAccounts/@{encodeURIComponent('PSauto')}/jobs",
+                    "queries": {
+                        "runbookName": "runbooknamehere",
+                        "wait": true,
+                        "x-ms-api-version": "2015-10-31"
+                    }
+                },
+                "runAfter": {},
+                "type": "ApiConnection"
+            }
+        },
+        "contentVersion": "1.0.0.0",
+        "outputs": {},
+        "parameters": {
+            "$connections": {
+                "defaultValue": {},
+                "type": "Object"
+            }
+        },
+        "triggers": {
+            "Recurrence": {
+                "recurrence": {
+                    "frequency": "Minute",
+                    "interval": 5,
+                    "timeZone": "GMT Standard Time"
+                },
+                "type": "Recurrence"
+            }
+        }
+    },
+    "parameters": {
+        "$connections": {
+            "value": {
+                "azureautomation": {
+                    "connectionId": "/subscriptions/XXXXX/resourceGroups/Azure_PSrunner/providers/Microsoft.Web/connections/azureautomation",
+                    "connectionName": "azureautomation",
+                    "id": "/subscriptions/XXXXX/providers/Microsoft.Web/locations/westeurope/managedApis/azureautomation"
+                },
+                "office365": {
+                    "connectionId": "/subscriptions/XXXXX/resourceGroups/Azure_PSrunner/providers/Microsoft.Web/connections/office365",
+                    "connectionName": "office365",
+                    "id": "/subscriptions/XXXXX/providers/Microsoft.Web/locations/westeurope/managedApis/office365"
+                }
+            }
+        }
+    }
+}
