@@ -1,5 +1,10 @@
+## NOTE:
+Please do not use this for production, instead use a VPN/firewall/route tables and route your traffic through to resources apropriately. This is a cheap workaround for when I did not have the resources for a VPN and while my deployment was going through a non-sensitive development phase.
+
+----------
+
 # AzureNetworkSecurityDynamicIP
-An Azure Function App, Azure Logic App, and Azure Automation Runbook to utilise a dynamic IP in Network Security Group Rules
+A family of Azure Function App, Azure Logic App, and Azure Automation Runbook to utilise Network Security Group Rules where you do not have a fixed/static IP (i.e. where you have a dynamic IP).
 
 ### Requirements:
 1. AzureRM.Network and AzureRM.Profile module in Azure Automation
@@ -30,3 +35,10 @@ An Azure Function App, Azure Logic App, and Azure Automation Runbook to utilise 
    - Add your Priority in line 35
 7. Create an Azure Logic App within the Resource Group
 8. Import (and modify for your environment) the Logic App template using [RunbookIntervalLogicApp](RunbookIntervalLogicApp)
+
+### ToDo:
+1. Create NSG rule if it does not exist
+2. Remove 'security by obscurity' approach in protecting Logic App
+3. Tidy variables in Azure Automation Runbook script
+4. Make Azure Automation Runbook script fully dynamic
+5. Improve reliability of Azure Automation Runbook script
